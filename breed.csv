@@ -1,0 +1,7 @@
+Breed                ,MaxWeight,MinWeight,Lifespan,Pros,Cons
+Labrador Retriever,36,25,12,"""Friendly and loyal""","""Requires a lot of exercise"""
+Bulldog,25,18,10,"""Calm and grest for aparments""","""Prone to respiratory issues"""
+German Shepherd,40,22,13,"""Highly intelligences and Protective""","""Tends to Shed a lot of hair"""
+Chihuahua,5,1.5,20,"""Excellent companion dog""","""Can be overly defensive or vocal"""
+Poodle,32,20,15,"""Hypoallergenic and very smart""","""Requires regular professional grooming"""
+Saint Berbard,64,54,10,"""great whit kid and loyal""","""short lifespan and a lot of medical complication """
