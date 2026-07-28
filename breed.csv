@@ -1,7 +1,8 @@
-Breed                ,MaxWeight,MinWeight,Lifespan,Pros,Cons
-Labrador Retriever,36,25,12,"""Friendly and loyal""","""Requires a lot of exercise"""
-Bulldog,25,18,10,"""Calm and grest for aparments""","""Prone to respiratory issues"""
-German Shepherd,40,22,13,"""Highly intelligences and Protective""","""Tends to Shed a lot of hair"""
-Chihuahua,5,1.5,20,"""Excellent companion dog""","""Can be overly defensive or vocal"""
-Poodle,32,20,15,"""Hypoallergenic and very smart""","""Requires regular professional grooming"""
-Saint Berbard,64,54,10,"""great whit kid and loyal""","""short lifespan and a lot of medical complication """
+Breed                ,MaxWeight,MinWeight,Lifespan,information
+Labrador Retriever,36,25,12,"Friendly, outgoing, and high-energy dogs that excel as family pets and working dogs."
+Bulldog,25,18,10,"Calm, courageous, and friendly breed that thrives well in apartment environments."
+German Shepherd,40,22,13,"Highly intelligent, confident, and versatile working breed used in protection and service."
+Chihuahua,5,1.5,20,"Graceful, charming, and sassy toy breed known for big personality in a small body."
+Poodle,32,20,15,"Exceptionally smart, active, and hypoallergenic breed requiring regular grooming."
+Saint Berbard,64,54,10,"Famous giant breed known for its gentle, patient demeanor, massive build, and history as rescue dogs."
+Pomeranian,1.4,3.2,16,"Compact, active toy breed with an abundant double coat and a lively, inquisitive personality."
