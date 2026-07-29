@@ -19,17 +19,18 @@ class BreedLogic(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUI(self)
         self.breeds_list = []   #here we set a list
-        self.load_data()        #here in the the next 2 line we have the population of the combo box and also to load the data from the csv
-        self.populate_combo_box()
+        self.load_data()        #here we have the value to upload the data from the csv file
+        self.populate_combo_box() #here the value for populating the combo box
         self.label_resulr_overweight("")
         self.label_result_underweight("")
-        self.pushButton.clicked.connect(self.calculate_status) #here we have the botttom to to give the result
+        self.pushButton.clicked.connect(self.calculate_status) #here we have the botttom to to give the result and does the math
 
     def load_data(self) -> None:
+        """Here is ere the data from the csv is extracter and the row breed is save in the list"""
         try:
             with open("breed.csv", mode="r", encoding="utf-8") as file:
                 reader = csv.DictReader(file)
-                for row in reader:
+                for row in reader: #here we creat valuse from the row in the csv 
                     breed = Breed(
                         breed_name=row["Breed"]
                         min_weigth=float(row["MinWeight"])
@@ -44,6 +45,7 @@ class BreedLogic(QMainWindow, Ui_MainWindow):
             self.textBrowser,setText("Error: loading CSV file: {e}")
 
     def populate_combo_box(self) -> None:
+        """Here is were the population of the combo box is set fro the breeds"""
         self.combo_bread.clear()
         self.combo_bread.addItem("Select")
         for breed in self.breeds_list:
