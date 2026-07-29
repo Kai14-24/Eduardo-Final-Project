@@ -18,12 +18,12 @@ class BreedLogic(QMainWindow, Ui_MainWindow):
     def __init__(self) -> None:
         super().__init__()
         self.setupUI(self)
-        self.breeds_list = []
-        self.load_data()
-        self.populate_como_box()
+        self.breeds_list = []   #here we set a list
+        self.load_data()        #here in the the next 2 line we have the population of the combo box and also to load the data from the csv
+        self.populate_combo_box()
         self.label_resulr_overweight("")
         self.label_result_underweight("")
-        self.pushButton.clicked.connect(self.calculate_status)
+        self.pushButton.clicked.connect(self.calculate_status) #here we have the botttom to to give the result
 
     def load_data(self) -> None:
         try:
@@ -60,7 +60,7 @@ class BreedLogic(QMainWindow, Ui_MainWindow):
             self.textBrowser.setText("Error: Please enter the weight of your dog.")
             return
 
-         try:
+        try:
             actual_weight = float(weight_input)
             if actual_weight <= 0:
                 self.textBrowser.setText("Error: Weight must be greater than zero.")
@@ -84,14 +84,12 @@ class BreedLogic(QMainWindow, Ui_MainWindow):
                 self.text_goinover.setText("0 kg")
                 self.text_goinunder.setText(f"{diff} kg")
                 self.label_result_underweight.setText("Your dog is underweight, please visit a vet.")
-
             elif actual_weight > selected_breed.max_weight:
                 diff = round(actual_weight - selected_breed.max_weight, 2)
                 self.text_status_weight.setText("Overweight")
                 self.text_goinover.setText(f"{diff} kg")
                 self.text_goinunder.setText("0 kg")
                 self.label_resulr_overweight.setText("Your dog is overweight, please visit a vet.")
-
             else:
                 self.text_status_weight.setText("Ideal Weight")
                 self.text_goinover.setText("0 kg")
