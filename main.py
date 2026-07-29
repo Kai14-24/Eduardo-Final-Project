@@ -1,6 +1,6 @@
 import sys
 from PyQt6.QtWidgets import QApplication
-from Breed import Logic
+from Breed import BreedLogic
 
 
 def main() -> None:
