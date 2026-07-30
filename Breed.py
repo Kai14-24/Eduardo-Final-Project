@@ -4,13 +4,13 @@ from PyQt6.QtWidgets import QMainWindow
 from gui_final import Ui_MainWindow
 
 class BreedClass:
-    """here is to clase the breed of dog in simple way"""
+    """Here is the class to store the breed of dog in a simple way."""
     def __init__(self, breed_name: str, min_weight: float, max_weight: float, lifespan: int, information: str) -> None:
-        self.__breed: str = breed_name
-        self.__minWeight: float = min_weight
-        self.__maxWeight: float = max_weight
-        self.__lifespan: int = lifespan
-        self.__information: str = information
+        self.breed_name: str = breed_name
+        self.min_weight: float = min_weight
+        self.max_weight: float = max_weight
+        self.lifespan: int = lifespan
+        self.information: str = information
 
 
 class BreedLogic(QMainWindow, Ui_MainWindow):
@@ -21,8 +21,8 @@ class BreedLogic(QMainWindow, Ui_MainWindow):
         self.breeds_list = []   #here we set a list
         self.load_data()        #here we have the value to upload the data from the csv file
         self.populate_combo_box() #here the value for populating the combo box
-        self.label_resulr_overweight("")
-        self.label_result_underweight("")
+        self.label_resulr_overweight.setText("")
+        self.label_result_underweight.setText("")
         self.pushButton.clicked.connect(self.calculate_status) #here we have the botttom to to give the result and does the math
 
     def load_data(self) -> None:
@@ -31,18 +31,19 @@ class BreedLogic(QMainWindow, Ui_MainWindow):
             with open("breed.csv", mode="r", encoding="utf-8") as file:
                 reader = csv.DictReader(file)
                 for row in reader: #here we creat valuse from the row in the csv 
-                    breed = Breed(
-                        breed_name=row["Breed"]
-                        min_weigth=float(row["MinWeight"])
-                        max_weight=float(row["MaxWeight"])
-                        lifespan=int(row["Lifespan"])
+                    breed = BreedClass(
+                        breed_name=row["Breed"],
+                        min_weight=float(row["MinWeight"]),
+                        max_weight=float(row["MaxWeight"]),
+                        lifespan=int(row["Lifespan"]),
                         information=row["information"]
                     )
+                        
                     self.breeds_list.append(breed)
         except FileNotFoundError:
-            self.testBrowser.setText("Error: 'breed.csv' file not found.")
+            self.textBrowser.setText("Error: 'breed.csv' file not found.")
         except Exception as e:
-            self.textBrowser,setText("Error: loading CSV file: {e}")
+            self.textBrowser.setText(f"Error: loading CSV file: {e}")
 
     def populate_combo_box(self) -> None:
         """Here is were the population of the combo box is set fro the breeds"""
@@ -52,7 +53,8 @@ class BreedLogic(QMainWindow, Ui_MainWindow):
             self.combo_bread.addItem(breed.breed_name)
 
     def calculate_status(self) -> None:
-        self.clear_result()
+        """"""
+        self.clear_results()
         selected_breed_name = self.combo_bread.currentText()
         weight_input = self.text_weight.toPlainText().strip() if hasattr(self.text_weight, 'toPlainText') else self.text_weight.text().strip()
         if selected_breed_name == "Select" or self.combo_bread.currentIndex() == 0:
@@ -73,7 +75,7 @@ class BreedLogic(QMainWindow, Ui_MainWindow):
 
         selected_breed = None
         for breed in self.breeds_list:
-            if breed.name == selected_breed_name:
+            if breed.breed_name == selected_breed_name:
                 selected_breed = breed
                 break
 
