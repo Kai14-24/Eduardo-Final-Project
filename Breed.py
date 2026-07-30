@@ -7,7 +7,7 @@ from PyQt6.uic import loadUi
 
 
 class breedLogic(QMainWindow):
-    """Controller class managing user interactions, data validation,external CSV data loading, and weight calculations for the Dog Health GUI application"""
+    """Controller class managing user interactions, data validation, external CSV data loading, and weight calculations for the Dog Health GUI application"""
     def __init__(self) -> None:
         """Initializes the main window, loads the Qt Designer interface file, loads external breed data"""
         super().__init__()
@@ -37,16 +37,6 @@ class breedLogic(QMainWindow):
         except Exception as e:
             print(f"Error loading CSV file: {e}")
 
-    def clear_outputs(self) -> None:
-        """Clears all text fields and resets warning labels to their hidden state"""
-        self.text_lifespan.clear()
-        self.text_status_weight.clear()
-        self.text_goinover.clear()
-        self.text_goinunder.clear()
-        self.textBrowser.clear()
-        self.label_resulr_overweight.hide()  # Reset warning labels visually using exact UI widget identifiers
-        self.label_result_underweight.hide()
-
     def calculate_weight_difference(self, current_weight: float, min_weight: float, max_weight: float) -> Tuple[
         str, float, str]:
         """
@@ -63,7 +53,7 @@ class breedLogic(QMainWindow):
             return "Your dog is at a normal weight", 0.0, "normal"
 
     def search_dog_info(self) -> None:
-        """Handles user input from the UI, performs input validation, evaluates weight logic,and renders calculated outputs to the GUI display widgets"""
+        """Handles user input from the UI input to give the result from the spesici selection of the user"""
         try:
             self.clear_outputs()
             selected_breed: str = self.combo_bread.currentText().strip() #Retrieve and validate selected breed
@@ -95,3 +85,13 @@ class breedLogic(QMainWindow):
             print("Runtime execution error:", e)
             traceback.print_exc()
             self.textBrowser.setText(f"An unexpected error occurred: {str(e)}")
+
+        def clear_outputs(self) -> None:
+        """Clears all text fields and resets warning labels to their hidden state"""
+        self.text_lifespan.clear()
+        self.text_status_weight.clear()
+        self.text_goinover.clear()
+        self.text_goinunder.clear()
+        self.textBrowser.clear()
+        self.label_resulr_overweight.hide() # Reset warning labels visually using exact UI widget identifiers
+        self.label_result_underweight.hide()
