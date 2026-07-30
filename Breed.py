@@ -1,119 +1,127 @@
-import csv
-from typing import List
+import traceback
 from PyQt6.QtWidgets import QMainWindow
-from guifinal1 import Ui_MainWindow
-
-class BreedClass:
-    """Here is the class to store the breed of dog in a simple way."""
-    def __init__(self, breed_name: str, min_weight: float, max_weight: float, lifespan: int, information: str) -> None:
-        self.breed_name: str = breed_name
-        self.min_weight: float = min_weight
-        self.max_weight: float = max_weight
-        self.lifespan: int = lifespan
-        self.information: str = information
+from PyQt6.uic import loadUi
 
 
-class BreedLogic(QMainWindow, Ui_MainWindow):
-    """Here we have the interface for the main window"""
+class Logic(QMainWindow):
     def __init__(self) -> None:
+        """Inicializa la ventana principal y conecta las señales con los slots."""
         super().__init__()
-        self.setupUi(self)
-        self.breeds_list = []   #here we set a list
-        self.load_data()        #here we have the value to upload the data from the csv file
-        self.populate_combo_box() #here the value for populating the combo box
-        self.label_resulr_overweight.setText("")
-        self.label_result_underweight.setText("")
-        self.pushButton.clicked.connect(self.calculate_status) #here we have the botttom to to give the result and does the math
 
-    def load_data(self) -> None:
-        """Here is ere the data from the csv is extracter and the row breed is save in the list"""
-        try:
-            with open("breed.csv", mode="r", encoding="utf-8") as file:
-                reader = csv.DictReader(file)
-                for row in reader: #here we creat valuse from the row in the csv 
-                    breed = BreedClass(
-                        breed_name=row["Breed"],
-                        min_weight=float(row["MinWeight"]),
-                        max_weight=float(row["MaxWeight"]),
-                        lifespan=int(row["Lifespan"]),
-                        information=row["information"]
-                    )
-                        
-                    self.breeds_list.append(breed)
-        except FileNotFoundError:
-            self.textBrowser.setText("Error: 'breed.csv' file not found.")
-        except Exception as e:
-            self.textBrowser.setText(f"Error: loading CSV file: {e}")
+        # Carga el archivo de interfaz creado en Qt Designer (.ui)
+        loadUi("guifinal1.ui", self)
 
-    def populate_combo_box(self) -> None:
-        """Here is were the population of the combo box is set fro the breeds"""
-        self.combo_bread.clear()
-        self.combo_bread.addItem("Select")
-        self.combo_bread.addItem("Labrador Retriever")
-        self.combo_bread.addItem("Bulldog")
-        self.combo_bread.addItem("German Shepherd")
-        self.combo_bread.addItem("Chihuahua")
-        self.combo_bread.addItem("Poodle")
-        self.combo_bread.addItem("saint Bernard")
-        self.combo_bread.addItem("Pomeranian")
-        for breed in self.breeds_list:
-            self.combo_bread.addItem(breed.breed_name)
+        # Diccionario con información técnica de cada raza:
+        # 'weight_range': (peso_min_kg, peso_max_kg)
+        # 'lifespan': 'años'
+        # 'info': 'descripción breve'
+        self.breed_data = {
+            "Labrador Retriever": {
+                "weight_range": (25.0, 36.0),
+                "lifespan": "10-12 yrs",
+                "info": "Active, outgoing, and friendly companion."
+            },
+            "Bulldog": {
+                "weight_range": (18.0, 25.0),
+                "lifespan": "8-10 yrs",
+                "info": "Docile, willful, and friendly breed."
+            },
+            "German Shepherd": {
+                "weight_range": (22.0, 40.0),
+                "lifespan": "7-10 yrs",
+                "info": "Smart, confident, and highly capable working dog."
+            },
+            "Chihuahua": {
+                "weight_range": (1.5, 5.0),
+                "lifespan": "12-20 yrs",
+                "info": "Graceful, alert, and swift small dog."
+            },
+            "Poodle": {
+                "weight_range": (20.0, 32.0),
+                "lifespan": "10-18 yrs",
+                "info": "Very intelligent, proud, and active dog."
+            },
+            "Saint Berbard": {  # Mantiene la ortografía del archivo UI
+                "weight_range": (54.0, 82.0),
+                "lifespan": "8-10 yrs",
+                "info": "Playful, charming, and giant working breed."
+            },
+            "Pomeranian": {
+                "weight_range": (1.4, 3.2),
+                "lifespan": "12-16 yrs",
+                "info": "Compact, curious, and lively toy dog."
+            }
+        }
 
-    def calculate_status(self) -> None:
-        """here is where the calculation of the weight status is done and the result is displayed in the interface"""
-        self.clear_results()
-        selected_breed_name = self.combo_bread.currentText()
-        weight_input = self.text_weight.toPlainText().strip() if hasattr(self.text_weight, 'toPlainText') else self.text_weight.text().strip()
-        if selected_breed_name == "Select" or self.combo_bread.currentIndex() == 0: #here from line 60 to 65 we have the error handling for the user input in the interface
-            self.textBrowser.setText("Error: Please select a dog breed.")
-            return
-        if weight_input == "":
-            self.textBrowser.setText("Error: Please enter the weight of your dog.")
-            return
-        # here we have the grab the actual weight and check if it is a valid number and greater than zero
-        try:
-            actual_weight = float(weight_input)
-            if actual_weight <= 0:
-                self.textBrowser.setText("Error: Weight must be greater than zero.")
-                return
-        except ValueError:
-            self.textBrowser.setText("Error: Please enter a valid number for weight (e.g., 24.5).")
-            return
+        # Estado inicial del UI
+        self.clear_outputs()
 
-        # here we have the selection of the breed from the list
-        selected_breed = None
-        for breed in self.breeds_list:
-            if breed.breed_name == selected_breed_name:
-                selected_breed = breed
-                break
+        # Conexión de evento al presionar el botón "Search"
+        self.pushButton.clicked.connect(self.search_dog_info)
 
-        # here we have the results of the calculation depeding if the calculation is goign over or under the weight of the breed
-        if selected_breed:
-            self.text_lifespan.setText(f"{selected_breed.lifespan} years")
-            self.textBrowser.setText(selected_breed.information)
-            if actual_weight < selected_breed.min_weight: #cheking if goin under
-                diff = round(selected_breed.min_weight - actual_weight, 2)
-                self.text_status_weight.setText("Underweight")
-                self.text_goinover.setText("0 kg")
-                self.text_goinunder.setText(f"{diff} kg")
-                self.label_result_underweight.setText("Your dog is underweight, please visit a vet.")
-            elif actual_weight > selected_breed.max_weight: #checking if goin over
-                diff = round(actual_weight - selected_breed.max_weight, 2)
-                self.text_status_weight.setText("Overweight")
-                self.text_goinover.setText(f"{diff} kg")
-                self.text_goinunder.setText("0 kg")
-                self.label_resulr_overweight.setText("Your dog is overweight, please visit a vet.")
-            else:
-                self.text_status_weight.setText("Ideal Weight")
-                self.text_goinover.setText("0 kg")
-                self.text_goinunder.setText("0 kg")
-
-    def clear_results(self) -> None:
-        """Here we claen the results from the previous calculation to avoid confusion for the user"""
+    def clear_outputs(self) -> None:
+        """Limpia los campos de texto y oculta las alertas visuales al inicio o ante errores."""
         self.text_lifespan.clear()
         self.text_status_weight.clear()
         self.text_goinover.clear()
         self.text_goinunder.clear()
         self.textBrowser.clear()
-        self.label_resulr_overweight.setText("")
-        self.label_result_underweight.setText("")
+
+        # Oculta las etiquetas de advertencia por defecto
+        self.label_resulr_overweight.hide()
+        self.label_result_underweight.hide()
+
+    def calculate_weight_difference(self, current_weight: float, min_weight: float, max_weight: float):
+        """Calcula si el perro está sobre o bajo peso y por cuánto."""
+        if current_weight > max_weight:
+            return "Your dog is overweight", current_weight - max_weight, "over"
+        elif current_weight < min_weight:
+            return "Your dog is under the weight", min_weight - current_weight, "under"
+        else:
+            return "Your dog is at a normal weight", 0.0, "normal"
+
+    def search_dog_info(self) -> None:
+        """Procesa la entrada del usuario, valida los datos y calcula el estado del peso."""
+        try:
+            self.clear_outputs()
+
+            # 1. Obtener la raza seleccionada (limpiando espacios extra)
+            selected_breed = self.combo_bread.currentText().strip()
+
+            if selected_breed not in self.breed_data:
+                self.textBrowser.setText("Please select a valid dog breed.")
+                return
+
+            # 2. Obtener y validar el peso ingresado
+            raw_weight = self.text_weight.toPlainText().strip()
+
+            try:
+                current_weight = float(raw_weight)
+                if current_weight <= 0:
+                    raise ValueError("Weight must be greater than zero.")
+            except ValueError:
+                self.textBrowser.setText("Error: Enter a valid positive number for weight.")
+                return
+
+            # 3. Recuperar datos de la raza seleccionada
+            data = self.breed_data[selected_breed]
+            min_w, max_w = data["weight_range"]
+
+            # 4. Desplegar información básica
+            self.text_lifespan.setText(data["lifespan"])
+            self.textBrowser.setText(data["info"])
+
+            status_msg, diff_amount, codition = self.calculate_weight_difference(current_weight, min_w, max_w)
+            self.text_status_weight.setText(status_msg)
+
+            # 5. Evaluar la condición física del perro
+            if codition == "under":
+                self.text_goinunder.setText(f"{diff_amount:.2f} kg")
+                self.label_result_underweight.show()
+            elif codition == "over":
+                self.text_goinover.setText(f"{diff_amount:.2f} kg")
+                self.label_resulr_overweight.show()
+        except Exception as e:
+            print("Error: during the search", e)
+            traceback.print_exc()
+            self.textBrowser.setText(f"An unexpected error occurred: {str(e)}")
