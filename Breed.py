@@ -17,7 +17,7 @@ class BreedLogic(QMainWindow, Ui_MainWindow):
     """Here we have the interface for the main window"""
     def __init__(self) -> None:
         super().__init__()
-        self.setupUI(self)
+        self.setupUi(self)
         self.breeds_list = []   #here we set a list
         self.load_data()        #here we have the value to upload the data from the csv file
         self.populate_combo_box() #here the value for populating the combo box
