@@ -1,12 +1,11 @@
 import sys
 from PyQt6.QtWidgets import QApplication
-from Breed import BreedLogic
+from Breed import Logic
 
 
-def main() -> None:
-    """The inical way to enter the window"""
+def main():
     app = QApplication(sys.argv)
-    window = BreedLogic()
+    window = Logic()
     window.show()
     sys.exit(app.exec())
 
