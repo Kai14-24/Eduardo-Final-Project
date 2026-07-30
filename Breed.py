@@ -1,7 +1,7 @@
 import csv
 from typing import List
 from PyQt6.QtWidgets import QMainWindow
-from gui_final import Ui_MainWindow
+from guifinal1 import Ui_MainWindow
 
 class BreedClass:
     """Here is the class to store the breed of dog in a simple way."""
