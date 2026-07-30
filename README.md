@@ -1,4 +1,3 @@
 # Eduardo-Final-Project
 
-here is app were you can chose the breed of dog you own and then give the weight of you dog and will tell you if is over weight or is to udethr the min weight.
-also it will give the some pros and cons depedenig of the weight of your dog and pros anc cons from the breed. 
+The app that i have is a were you can chose brom a drop down menu were you chose ypour breed also put by text the weight of your dog and will give you the satus of the weihgt of you dog and will say is over weight or under weight depeding of the weihgt you put from your dog and will send massage to go to de vet for both esenario also will tell you how off you are in the weight. 
