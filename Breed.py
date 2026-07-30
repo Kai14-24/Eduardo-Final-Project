@@ -49,6 +49,13 @@ class BreedLogic(QMainWindow, Ui_MainWindow):
         """Here is were the population of the combo box is set fro the breeds"""
         self.combo_bread.clear()
         self.combo_bread.addItem("Select")
+        self.combo_bread.addItem("Labrador Retriever")
+        self.combo_bread.addItem("Bulldog")
+        self.combo_bread.addItem("German Shepherd")
+        self.combo_bread.addItem("Chihuahua")
+        self.combo_bread.addItem("Poodle")
+        self.combo_bread.addItem("saint Bernard")
+        self.combo_bread.addItem("Pomeranian")
         for breed in self.breeds_list:
             self.combo_bread.addItem(breed.breed_name)
 
