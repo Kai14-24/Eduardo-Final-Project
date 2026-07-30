@@ -1,4 +1,3 @@
-import os
 import csv
 from typing import List
 from PyQt6.QtWidgets import QMainWindow
@@ -27,36 +26,24 @@ class BreedLogic(QMainWindow, Ui_MainWindow):
         self.pushButton.clicked.connect(self.calculate_status) #here we have the botttom to to give the result and does the math
 
     def load_data(self) -> None:
-    """here is were we get the data from the csv"""
-    self.breeds_list = []
-    
-    # Obtener la ruta exacta del directorio donde está este archivo
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    csv_path = os.path.join(script_dir, "breed.csv")  # O "data/breed.csv" si está en una carpeta
-
-    try:
-        with open(csv_path, mode="r", encoding="utf-8") as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                breed = BreedClass(
-                    breed_name=row["Breed"],
-                    min_weight=float(row["MinWeight"]),
-                    max_weight=float(row["MaxWeight"]),
-                    lifespan=int(row["Lifespan"]),
-                    information=row["information"]
-                )
-                self.breeds_list.append(breed)
-                
-        print(f"¡Éxito! Se cargaron {len(self.breeds_list)} razas.")
-
-    except FileNotFoundError:
-        print(f"Error: No se encontró el archivo en la ruta: {csv_path}")
-        if hasattr(self, 'textBrowser'):
+        """Here is ere the data from the csv is extracter and the row breed is save in the list"""
+        try:
+            with open("breed.csv", mode="r", encoding="utf-8") as file:
+                reader = csv.DictReader(file)
+                for row in reader: #here we creat valuse from the row in the csv 
+                    breed = BreedClass(
+                        breed_name=row["Breed"],
+                        min_weight=float(row["MinWeight"]),
+                        max_weight=float(row["MaxWeight"]),
+                        lifespan=int(row["Lifespan"]),
+                        information=row["information"]
+                    )
+                        
+                    self.breeds_list.append(breed)
+        except FileNotFoundError:
             self.textBrowser.setText("Error: 'breed.csv' file not found.")
-    except Exception as e:
-        print(f"Error al leer el CSV: {e}")
-        if hasattr(self, 'textBrowser'):
-            self.textBrowser.setText(f"Error loading CSV file: {e}")
+        except Exception as e:
+            self.textBrowser.setText(f"Error: loading CSV file: {e}")
 
     def populate_combo_box(self) -> None:
         """Here is were the population of the combo box is set fro the breeds"""
