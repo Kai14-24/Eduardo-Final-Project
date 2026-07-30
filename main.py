@@ -6,7 +6,7 @@ from Breed import BreedLogic
 def main() -> None:
     """The inical way to enter the window"""
     app = QApplication(sys.argv)
-    window = Logic()
+    window = BreedLogic()
     window.show()
     sys.exit(app.exec())
 
