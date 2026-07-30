@@ -21,7 +21,7 @@ class BreedLogic(QMainWindow, Ui_MainWindow):
         self.breeds_list = []   #here we set a list
         self.load_data()        #here we have the value to upload the data from the csv file
         self.populate_combo_box() #here the value for populating the combo box
-        self.label_result_overweight.setText("")
+        self.label_resulr_overweight.setText("")
         self.label_result_underweight.setText("")
         self.pushButton.clicked.connect(self.calculate_status) #here we have the botttom to to give the result and does the math
 
@@ -95,7 +95,7 @@ class BreedLogic(QMainWindow, Ui_MainWindow):
                 self.text_status_weight.setText("Overweight")
                 self.text_goinover.setText(f"{diff} kg")
                 self.text_goinunder.setText("0 kg")
-                self.label_result_overweight.setText("Your dog is overweight, please visit a vet.")
+                self.label_resulr_overweight.setText("Your dog is overweight, please visit a vet.")
             else:
                 self.text_status_weight.setText("Ideal Weight")
                 self.text_goinover.setText("0 kg")
@@ -108,5 +108,5 @@ class BreedLogic(QMainWindow, Ui_MainWindow):
         self.text_goinover.clear()
         self.text_goinunder.clear()
         self.textBrowser.clear()
-        self.label_result_overweight.setText("")
+        self.label_resulr_overweight.setText("")
         self.label_result_underweight.setText("")
